@@ -23,4 +23,4 @@ runs:
       env:
         RUST_LOG: worktree=trace
       run: |
-        for i in $(seq 100); do cargo nextest run --p worktree --no-fail-fast; done
+        for i in $(seq 100); do cargo nextest run -p worktree --no-fail-fast; done
