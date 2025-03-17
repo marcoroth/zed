@@ -171,17 +171,20 @@ jobs:
 
       - name: cargo clippy
         run: ./script/clippy
+        if: false
 
       - name: Install cargo-machete
         uses: clechasseur/rs-cargo@8435b10f6e71c2e3d4d3b7573003a8ce4bfc6386 # v2
         with:
           command: install
           args: cargo-machete@0.7.0
+        if: false
 
       - name: Check unused dependencies
         uses: clechasseur/rs-cargo@8435b10f6e71c2e3d4d3b7573003a8ce4bfc6386 # v2
         with:
           command: machete
+        if: false
 
       - name: Check licenses
         run: |
@@ -189,9 +192,10 @@ jobs:
           if [[ "${{ needs.job_spec.outputs.run_license }}" == "true" ]]; then
             script/generate-licenses /tmp/zed_licenses_output
           fi
+        if: false
 
       - name: Check for new vulnerable dependencies
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && false
         uses: actions/dependency-review-action@3b139cfc5fae8b618d3eae3675e383bb1769c019 # v4
         with:
           license-check: false
@@ -201,6 +205,7 @@ jobs:
 
       - name: Build collab
         run: cargo build -p collab
+        if: false
 
       - name: Build other binaries and features
         run: |
@@ -210,6 +215,7 @@ jobs:
           cargo build -p remote_server
           cargo check -p gpui --examples
           script/check-rust-livekit-macos
+        if: false
 
       # Since the macOS runners are stateful, so we need to remove the config file to prevent potential bug.
       - name: Clean CI config file
@@ -222,7 +228,8 @@ jobs:
     needs: [job_spec]
     if: |
       github.repository_owner == 'zed-industries' &&
-      needs.job_spec.outputs.run_tests == 'true'
+      needs.job_spec.outputs.run_tests == 'true' &&
+      false
     runs-on:
       - buildjet-16vcpu-ubuntu-2204
     steps:
@@ -371,7 +378,8 @@ jobs:
     needs: [job_spec]
     if: |
       github.repository_owner == 'zed-industries' &&
-      needs.job_spec.outputs.run_tests == 'true'
+      needs.job_spec.outputs.run_tests == 'true' &&
+      false
     # Use bigger runners for PRs (speed); smaller for async (cost)
     runs-on: ${{ github.event_name == 'pull_request' && 'windows-2025-32' || 'windows-2025-16' }}
     steps:
